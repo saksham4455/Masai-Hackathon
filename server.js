@@ -1,0 +1,235 @@
+// Simple Express server to handle JSON file operations
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = 3001;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Data file paths
+const DATA_DIR = path.join(__dirname, 'src', 'data');
+const USERS_FILE = path.join(DATA_DIR, 'users.json');
+const ADMINS_FILE = path.join(DATA_DIR, 'admins.json');
+const ISSUES_FILE = path.join(DATA_DIR, 'issues.json');
+
+// Ensure data directory exists
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+// Initialize data files if they don't exist
+const initializeDataFiles = () => {
+  if (!fs.existsSync(USERS_FILE)) {
+    fs.writeFileSync(USERS_FILE, JSON.stringify({ users: [] }, null, 2));
+  }
+  if (!fs.existsSync(ADMINS_FILE)) {
+    fs.writeFileSync(ADMINS_FILE, JSON.stringify({
+      admins: [
+        {
+          id: 'admin-1',
+          email: 'admin@city.gov',
+          password: 'admin123',
+          full_name: 'City Administrator',
+          role: 'admin',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        }
+      ]
+    }, null, 2));
+  }
+  if (!fs.existsSync(ISSUES_FILE)) {
+    fs.writeFileSync(ISSUES_FILE, JSON.stringify({ issues: [] }, null, 2));
+  }
+};
+
+// Initialize on startup
+initializeDataFiles();
+
+// Helper function to read JSON file
+const readJsonFile = (filePath) => {
+  try {
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error(`Error reading ${filePath}:`, error);
+    return null;
+  }
+};
+
+// Helper function to write JSON file
+const writeJsonFile = (filePath, data) => {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    return true;
+  } catch (error) {
+    console.error(`Error writing ${filePath}:`, error);
+    return false;
+  }
+};
+
+// Routes
+
+// Get all users
+app.get('/api/users', (req, res) => {
+  const usersData = readJsonFile(USERS_FILE);
+  res.json(usersData);
+});
+
+// Create new user
+app.post('/api/users', (req, res) => {
+  const { email, password, fullName } = req.body;
+  
+  if (!email || !password || !fullName) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const usersData = readJsonFile(USERS_FILE);
+  const adminsData = readJsonFile(ADMINS_FILE);
+
+  // Check if user already exists
+  const existingUser = usersData.users.find(u => u.email === email);
+  const existingAdmin = adminsData.admins.find(a => a.email === email);
+
+  if (existingUser || existingAdmin) {
+    return res.status(400).json({ error: 'User with this email already exists' });
+  }
+
+  // Create new user
+  const newUser = {
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    email,
+    password,
+    full_name: fullName,
+    role: 'citizen',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  };
+
+  usersData.users.push(newUser);
+
+  if (writeJsonFile(USERS_FILE, usersData)) {
+    res.json({ user: newUser, message: 'User created successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to save user data' });
+  }
+});
+
+// Authenticate user
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Missing email or password' });
+  }
+
+  const usersData = readJsonFile(USERS_FILE);
+  const adminsData = readJsonFile(ADMINS_FILE);
+
+  // Check citizens first
+  const user = usersData.users.find(u => u.email === email && u.password === password);
+  if (user) {
+    return res.json({ user, message: 'Login successful' });
+  }
+
+  // Check admins
+  const admin = adminsData.admins.find(a => a.email === email && a.password === password);
+  if (admin) {
+    return res.json({ user: admin, message: 'Admin login successful' });
+  }
+
+  res.status(401).json({ error: 'Invalid email or password' });
+});
+
+// Get all issues
+app.get('/api/issues', (req, res) => {
+  const issuesData = readJsonFile(ISSUES_FILE);
+  res.json(issuesData);
+});
+
+// Create new issue
+app.post('/api/issues', (req, res) => {
+  const issueData = req.body;
+
+  if (!issueData.user_id || !issueData.issue_type || !issueData.description) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const issuesData = readJsonFile(ISSUES_FILE);
+
+  const newIssue = {
+    ...issueData,
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  };
+
+  issuesData.issues.push(newIssue);
+
+  if (writeJsonFile(ISSUES_FILE, issuesData)) {
+    res.json({ issue: newIssue, message: 'Issue created successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to save issue data' });
+  }
+});
+
+// Update issue status
+app.put('/api/issues/:id/status', (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+    return res.status(400).json({ error: 'Status is required' });
+  }
+
+  const issuesData = readJsonFile(ISSUES_FILE);
+  const issueIndex = issuesData.issues.findIndex(issue => issue.id === id);
+
+  if (issueIndex === -1) {
+    return res.status(404).json({ error: 'Issue not found' });
+  }
+
+  issuesData.issues[issueIndex].status = status;
+  issuesData.issues[issueIndex].updated_at = new Date().toISOString();
+
+  if (writeJsonFile(ISSUES_FILE, issuesData)) {
+    res.json({ issue: issuesData.issues[issueIndex], message: 'Issue updated successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to update issue' });
+  }
+});
+
+// Get user issues
+app.get('/api/users/:userId/issues', (req, res) => {
+  const { userId } = req.params;
+  const issuesData = readJsonFile(ISSUES_FILE);
+  const userIssues = issuesData.issues.filter(issue => issue.user_id === userId);
+  res.json({ issues: userIssues });
+});
+
+// Get issue by ID
+app.get('/api/issues/:id', (req, res) => {
+  const { id } = req.params;
+  const issuesData = readJsonFile(ISSUES_FILE);
+  const issue = issuesData.issues.find(issue => issue.id === id);
+
+  if (!issue) {
+    return res.status(404).json({ error: 'Issue not found' });
+  }
+
+  res.json({ issue });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Backend server running on http://localhost:${PORT}`);
+  console.log(`Data files location: ${DATA_DIR}`);
+});

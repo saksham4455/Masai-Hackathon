@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": "1761335666815k8sd30ib0",
+      "email": "siddheshvikram1@gmail.com",
+      "password": "Sam123",
+      "full_name": "Sam",
+      "role": "citizen",
+      "created_at": "2025-10-24T19:54:26.815Z",
+      "updated_at": "2025-10-24T19:54:26.815Z"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "issues": [
+    {
+      "user_id": "1761335666815k8sd30ib0",
+      "issue_type": "pothole",
+      "description": "asdf",
+      "photo_url": null,
+      "latitude": 22.289666500000003,
+      "longitude": 73.36417325,
+      "status": "pending",
+      "id": "176133655170935tg0y5e0",
+      "created_at": "2025-10-24T20:09:11.709Z",
+      "updated_at": "2025-10-24T20:09:11.709Z"
+    }
+  ]
+}
