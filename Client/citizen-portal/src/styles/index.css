@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+/* small helper classes */
+.container { max-width: 72rem; margin: 0 auto; }
