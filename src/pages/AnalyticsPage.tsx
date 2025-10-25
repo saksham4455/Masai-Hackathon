@@ -58,6 +58,11 @@ interface DepartmentStats {
   avgResolutionTime: number;
   resolutionRate: number;
   cost: number;
+  efficiencyScore: number;
+  costPerResolution: number;
+  trendScore: number;
+  priorityBreakdown: Record<string, number>;
+  monthlyTrend: number[];
 }
 
 interface MonthlyReport {
@@ -66,6 +71,11 @@ interface MonthlyReport {
   resolvedIssues: number;
   avgResolutionTime: number;
   totalCost: number;
+  departmentBreakdown: Record<string, number>;
+  priorityBreakdown: Record<string, number>;
+  efficiencyScore: number;
+  costPerIssue: number;
+  trendIndicator: 'up' | 'down' | 'stable';
 }
 
 interface GeographicData {
@@ -230,12 +240,63 @@ export function AnalyticsPage() {
         ? (resolvedIssues.length / deptIssues.length) * 100 
         : 0;
       
+      // Calculate efficiency score (0-100)
+      const efficiencyScore = Math.min(100, Math.max(0, 
+        (resolutionRate * 0.4) + 
+        ((Math.max(0, 30 - avgResolutionTime) / 30) * 100 * 0.3) + 
+        ((Math.max(0, 100 - (deptIssues.length * 2)) / 100) * 100 * 0.3)
+      ));
+      
+      const costPerResolution = resolvedIssues.length > 0 
+        ? (deptIssues.length * dept.costPerIssue) / resolvedIssues.length 
+        : 0;
+      
+      // Calculate trend score based on recent performance
+      const recentIssues = deptIssues.filter(issue => {
+        const issueDate = new Date(issue.created_at);
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        return issueDate >= thirtyDaysAgo;
+      });
+      
+      const recentResolutionRate = recentIssues.length > 0 
+        ? (recentIssues.filter(i => i.status === 'resolved').length / recentIssues.length) * 100 
+        : 0;
+      
+      const trendScore = recentResolutionRate - resolutionRate;
+      
+      // Priority breakdown
+      const priorityBreakdown = deptIssues.reduce((acc, issue) => {
+        const priority = issue.priority || 'medium';
+        acc[priority] = (acc[priority] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      
+      // Monthly trend (last 6 months)
+      const monthlyTrend = Array.from({ length: 6 }, (_, i) => {
+        const monthStart = new Date();
+        monthStart.setMonth(monthStart.getMonth() - (5 - i));
+        monthStart.setDate(1);
+        const monthEnd = new Date(monthStart);
+        monthEnd.setMonth(monthEnd.getMonth() + 1);
+        
+        return deptIssues.filter(issue => {
+          const issueDate = new Date(issue.created_at);
+          return issueDate >= monthStart && issueDate < monthEnd;
+        }).length;
+      });
+      
       return {
         name: dept.name,
         issuesAssigned: deptIssues.length,
         avgResolutionTime,
         resolutionRate,
-        cost: deptIssues.length * dept.costPerIssue
+        cost: deptIssues.length * dept.costPerIssue,
+        efficiencyScore,
+        costPerResolution,
+        trendScore,
+        priorityBreakdown,
+        monthlyTrend
       };
     });
   };
@@ -271,7 +332,12 @@ export function AnalyticsPage() {
           totalIssues: 0,
           resolvedIssues: 0,
           avgResolutionTime: 0,
-          totalCost: 0
+          totalCost: 0,
+          departmentBreakdown: {},
+          priorityBreakdown: {},
+          efficiencyScore: 0,
+          costPerIssue: 0,
+          trendIndicator: 'stable'
         };
       }
       
@@ -283,9 +349,19 @@ export function AnalyticsPage() {
       // Add cost based on issue type
       const cost = getCostForIssueType(issue.issue_type);
       monthlyData[month].totalCost += cost;
+      
+      // Department breakdown
+      const department = getDepartmentForIssueType(issue.issue_type);
+      monthlyData[month].departmentBreakdown[department] = 
+        (monthlyData[month].departmentBreakdown[department] || 0) + 1;
+      
+      // Priority breakdown
+      const priority = issue.priority || 'medium';
+      monthlyData[month].priorityBreakdown[priority] = 
+        (monthlyData[month].priorityBreakdown[priority] || 0) + 1;
     });
     
-    // Calculate average resolution time for each month
+    // Calculate additional metrics for each month
     Object.keys(monthlyData).forEach(month => {
       const monthIssues = issues.filter(issue => 
         issue.created_at.startsWith(month) && issue.status === 'resolved'
@@ -300,9 +376,42 @@ export function AnalyticsPage() {
         
         monthlyData[month].avgResolutionTime = totalTime / monthIssues.length / (1000 * 60 * 60 * 24);
       }
+      
+      // Calculate efficiency score
+      const resolutionRate = monthlyData[month].totalIssues > 0 
+        ? (monthlyData[month].resolvedIssues / monthlyData[month].totalIssues) * 100 
+        : 0;
+      
+      const avgResolutionTime = monthlyData[month].avgResolutionTime;
+      monthlyData[month].efficiencyScore = Math.min(100, Math.max(0, 
+        (resolutionRate * 0.5) + 
+        ((Math.max(0, 30 - avgResolutionTime) / 30) * 100 * 0.5)
+      ));
+      
+      // Calculate cost per issue
+      monthlyData[month].costPerIssue = monthlyData[month].totalIssues > 0 
+        ? monthlyData[month].totalCost / monthlyData[month].totalIssues 
+        : 0;
     });
     
-    return Object.values(monthlyData).sort((a, b) => a.month.localeCompare(b.month));
+    // Calculate trend indicators
+    const sortedMonths = Object.values(monthlyData).sort((a, b) => a.month.localeCompare(b.month));
+    sortedMonths.forEach((report, index) => {
+      if (index > 0) {
+        const prevReport = sortedMonths[index - 1];
+        const efficiencyDiff = report.efficiencyScore - prevReport.efficiencyScore;
+        
+        if (efficiencyDiff > 5) {
+          report.trendIndicator = 'up';
+        } else if (efficiencyDiff < -5) {
+          report.trendIndicator = 'down';
+        } else {
+          report.trendIndicator = 'stable';
+        }
+      }
+    });
+    
+    return sortedMonths;
   };
 
   const getCostForIssueType = (issueType: string): number => {
@@ -396,13 +505,21 @@ export function AnalyticsPage() {
         Month: report.month,
         'Total Issues': report.totalIssues,
         'Resolved Issues': report.resolvedIssues,
+        'Resolution Rate (%)': report.totalIssues > 0 ? ((report.resolvedIssues / report.totalIssues) * 100).toFixed(1) : 0,
         'Avg Resolution Time (days)': report.avgResolutionTime.toFixed(2),
-        'Total Cost': report.totalCost
+        'Efficiency Score (%)': report.efficiencyScore.toFixed(1),
+        'Cost per Issue ($)': report.costPerIssue.toFixed(2),
+        'Total Cost ($)': report.totalCost,
+        'Trend': report.trendIndicator,
+        'Department Breakdown': JSON.stringify(report.departmentBreakdown),
+        'Priority Breakdown': JSON.stringify(report.priorityBreakdown)
       }));
       
       const csvContent = [
         Object.keys(csvData[0]).join(','),
-        ...csvData.map(row => Object.values(row).join(','))
+        ...csvData.map(row => Object.values(row).map(val => 
+          typeof val === 'string' && val.includes(',') ? `"${val}"` : val
+        ).join(','))
       ].join('\n');
       
       const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -412,6 +529,128 @@ export function AnalyticsPage() {
       a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       URL.revokeObjectURL(url);
+    } else if (format === 'pdf') {
+      // Generate PDF report using browser's print functionality
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        const currentDate = new Date().toLocaleDateString();
+        const totalIssues = stats?.total || 0;
+        const totalResolved = stats?.resolved || 0;
+        const avgResolutionTime = stats?.avgResolutionTime || 0;
+        const resolutionRate = stats?.resolutionRate || 0;
+        
+        const pdfContent = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Analytics Report - ${currentDate}</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              .header { text-align: center; margin-bottom: 30px; }
+              .section { margin-bottom: 25px; }
+              .section h2 { color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; }
+              .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
+              .metric-card { background: #f9fafb; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6; }
+              .metric-value { font-size: 24px; font-weight: bold; color: #1f2937; }
+              .metric-label { color: #6b7280; font-size: 14px; }
+              table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+              th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+              th { background-color: #f9fafb; font-weight: 600; }
+              .department-card { background: #f9fafb; padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+              .efficiency-badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+              .efficiency-high { background: #dcfce7; color: #166534; }
+              .efficiency-medium { background: #fef3c7; color: #92400e; }
+              .efficiency-low { background: #fee2e2; color: #991b1b; }
+              @media print { body { margin: 0; } }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <h1>City Issue Management Analytics Report</h1>
+              <p>Generated on ${currentDate}</p>
+            </div>
+            
+            <div class="section">
+              <h2>Executive Summary</h2>
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="metric-value">${totalIssues}</div>
+                  <div class="metric-label">Total Issues</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value">${resolutionRate.toFixed(1)}%</div>
+                  <div class="metric-label">Resolution Rate</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value">${avgResolutionTime.toFixed(1)} days</div>
+                  <div class="metric-label">Avg Resolution Time</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value">${monthlyReports.reduce((sum, report) => sum + report.totalCost, 0).toLocaleString()}</div>
+                  <div class="metric-label">Total Cost</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section">
+              <h2>Department Performance</h2>
+              ${departmentStats.map(dept => `
+                <div class="department-card">
+                  <h3>${dept.name}</h3>
+                  <p><strong>Issues Assigned:</strong> ${dept.issuesAssigned}</p>
+                  <p><strong>Resolution Rate:</strong> ${dept.resolutionRate.toFixed(1)}%</p>
+                  <p><strong>Avg Resolution Time:</strong> ${dept.avgResolutionTime.toFixed(1)} days</p>
+                  <p><strong>Efficiency Score:</strong> 
+                    <span class="efficiency-badge ${dept.efficiencyScore >= 80 ? 'efficiency-high' : dept.efficiencyScore >= 60 ? 'efficiency-medium' : 'efficiency-low'}">
+                      ${dept.efficiencyScore.toFixed(0)}%
+                    </span>
+                  </p>
+                  <p><strong>Total Cost:</strong> $${dept.cost.toLocaleString()}</p>
+                </div>
+              `).join('')}
+            </div>
+            
+            <div class="section">
+              <h2>Monthly Reports</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Total Issues</th>
+                    <th>Resolved</th>
+                    <th>Resolution Rate</th>
+                    <th>Efficiency Score</th>
+                    <th>Total Cost</th>
+                    <th>Trend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${monthlyReports.map(report => `
+                    <tr>
+                      <td>${new Date(report.month + '-01').toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</td>
+                      <td>${report.totalIssues}</td>
+                      <td>${report.resolvedIssues}</td>
+                      <td>${report.totalIssues > 0 ? ((report.resolvedIssues / report.totalIssues) * 100).toFixed(1) : 0}%</td>
+                      <td>${report.efficiencyScore.toFixed(0)}%</td>
+                      <td>$${report.totalCost.toLocaleString()}</td>
+                      <td>${report.trendIndicator === 'up' ? '↗ Improving' : report.trendIndicator === 'down' ? '↘ Declining' : '→ Stable'}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </body>
+          </html>
+        `;
+        
+        printWindow.document.write(pdfContent);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+          printWindow.print();
+          printWindow.close();
+        }, 500);
+      }
     }
   };
 
@@ -434,7 +673,7 @@ export function AnalyticsPage() {
   console.log('Rendering Analytics page with stats:', stats, 'issues:', issues);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex-grow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -468,6 +707,14 @@ export function AnalyticsPage() {
               >
                 <Download className="w-4 h-4" />
                 <span>Export CSV</span>
+              </button>
+              
+              <button
+                onClick={() => exportReport('pdf')}
+                className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              >
+                <Download className="w-4 h-4" />
+                <span>Export PDF</span>
               </button>
             </div>
           </div>
@@ -638,6 +885,74 @@ export function AnalyticsPage() {
            </div>
          </div>
 
+         {/* Department Performance Charts */}
+         <div className="bg-white p-6 rounded-lg shadow-sm border mb-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+              <BarChart3 className="w-5 h-5 text-indigo-600" />
+              <span>Department Performance Trends</span>
+            </h3>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Department Efficiency Comparison */}
+              <div className="h-64">
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Efficiency Score Comparison</h4>
+                {departmentStats.length > 0 ? (
+                  <div className="space-y-3">
+                    {departmentStats.map((dept, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <div className="w-24 text-sm text-gray-600 truncate">{dept.name}</div>
+                        <div className="flex-1 bg-gray-200 rounded-full h-4">
+                          <div 
+                            className={`h-4 rounded-full transition-all duration-500 ${
+                              dept.efficiencyScore >= 80 ? 'bg-green-500' :
+                              dept.efficiencyScore >= 60 ? 'bg-yellow-500' :
+                              'bg-red-500'
+                            }`}
+                            style={{ width: `${dept.efficiencyScore}%` }}
+                          ></div>
+                        </div>
+                        <div className="w-12 text-sm font-medium text-gray-900">
+                          {dept.efficiencyScore.toFixed(0)}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    No data available
+                  </div>
+                )}
+              </div>
+              
+              {/* Department Cost Analysis */}
+              <div className="h-64">
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Cost per Resolution</h4>
+                {departmentStats.length > 0 ? (
+                  <div className="space-y-3">
+                    {departmentStats.map((dept, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <div className="w-24 text-sm text-gray-600 truncate">{dept.name}</div>
+                        <div className="flex-1 bg-gray-200 rounded-full h-4">
+                          <div 
+                            className="h-4 bg-purple-500 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.min(100, (dept.costPerResolution / 500) * 100)}%` }}
+                          ></div>
+                        </div>
+                        <div className="w-16 text-sm font-medium text-gray-900">
+                          ${dept.costPerResolution.toFixed(0)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    No data available
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
          {/* Department Performance */}
          <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
@@ -645,28 +960,72 @@ export function AnalyticsPage() {
               <span>Department Performance</span>
             </h3>
             
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {departmentStats.map((dept, index) => (
-                <div key={index} className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-gray-900">{dept.name}</h4>
-                    <span className="text-sm text-gray-600">{dept.issuesAssigned} issues</span>
+                <div key={index} className="border rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-gray-900 text-lg">{dept.name}</h4>
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        dept.efficiencyScore >= 80 ? 'bg-green-100 text-green-800' :
+                        dept.efficiencyScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {dept.efficiencyScore.toFixed(0)}% Efficiency
+                      </span>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        dept.trendScore > 0 ? 'bg-green-100 text-green-800' :
+                        dept.trendScore < 0 ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {dept.trendScore > 0 ? '↗' : dept.trendScore < 0 ? '↘' : '→'} Trend
+                      </span>
+                    </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-600">Resolution Rate:</span>
-                      <span className="ml-2 font-medium text-green-600">{dept.resolutionRate.toFixed(1)}%</span>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="text-sm text-gray-600">Issues Assigned</div>
+                      <div className="text-xl font-bold text-blue-600">{dept.issuesAssigned}</div>
                     </div>
-                    <div>
-                      <span className="text-gray-600">Avg Time:</span>
-                      <span className="ml-2 font-medium text-blue-600">{dept.avgResolutionTime.toFixed(1)} days</span>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="text-sm text-gray-600">Resolution Rate</div>
+                      <div className="text-xl font-bold text-green-600">{dept.resolutionRate.toFixed(1)}%</div>
+                    </div>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="text-sm text-gray-600">Avg Resolution Time</div>
+                      <div className="text-xl font-bold text-orange-600">{dept.avgResolutionTime.toFixed(1)} days</div>
+                    </div>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="text-sm text-gray-600">Cost per Resolution</div>
+                      <div className="text-xl font-bold text-purple-600">${dept.costPerResolution.toFixed(0)}</div>
                     </div>
                   </div>
                   
-                  <div className="mt-2">
-                    <span className="text-gray-600 text-sm">Total Cost:</span>
-                    <span className="ml-2 font-medium text-purple-600">${dept.cost.toLocaleString()}</span>
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium text-gray-700">Priority Breakdown</span>
+                    </div>
+                    <div className="flex space-x-2">
+                      {Object.entries(dept.priorityBreakdown).map(([priority, count]) => (
+                        <div key={priority} className="flex-1 text-center">
+                          <div className={`text-xs px-2 py-1 rounded ${
+                            priority === 'critical' ? 'bg-red-100 text-red-800' :
+                            priority === 'high' ? 'bg-orange-100 text-orange-800' :
+                            priority === 'medium' ? 'bg-blue-100 text-blue-800' :
+                            'bg-green-100 text-green-800'
+                          }`}>
+                            {priority.charAt(0).toUpperCase() + priority.slice(1)}
+                          </div>
+                          <div className="text-sm font-medium mt-1">{count}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-gray-600">Total Cost:</span>
+                    <span className="font-semibold text-gray-900">${dept.cost.toLocaleString()}</span>
                   </div>
                 </div>
               ))}
@@ -737,10 +1096,22 @@ export function AnalyticsPage() {
                     Resolved
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Resolution Rate
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Avg Resolution Time
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Efficiency Score
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Cost per Issue
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Total Cost
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Trend
                   </th>
                 </tr>
               </thead>
@@ -760,16 +1131,81 @@ export function AnalyticsPage() {
                       {report.resolvedIssues}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        (report.resolvedIssues / report.totalIssues * 100) >= 80 ? 'bg-green-100 text-green-800' :
+                        (report.resolvedIssues / report.totalIssues * 100) >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {report.totalIssues > 0 ? ((report.resolvedIssues / report.totalIssues) * 100).toFixed(1) : 0}%
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {report.avgResolutionTime.toFixed(1)} days
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        report.efficiencyScore >= 80 ? 'bg-green-100 text-green-800' :
+                        report.efficiencyScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {report.efficiencyScore.toFixed(0)}%
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      ${report.costPerIssue.toFixed(0)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       ${report.totalCost.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        report.trendIndicator === 'up' ? 'bg-green-100 text-green-800' :
+                        report.trendIndicator === 'down' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {report.trendIndicator === 'up' ? '↗ Improving' :
+                         report.trendIndicator === 'down' ? '↘ Declining' :
+                         '→ Stable'}
+                      </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          
+          {/* Summary Cards */}
+          {monthlyReports.length > 0 && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="text-sm text-blue-600 font-medium">Best Performing Month</div>
+                <div className="text-lg font-bold text-blue-900">
+                  {monthlyReports.reduce((best, current) => 
+                    current.efficiencyScore > best.efficiencyScore ? current : best
+                  ).month}
+                </div>
+              </div>
+              <div className="bg-green-50 p-4 rounded-lg">
+                <div className="text-sm text-green-600 font-medium">Average Resolution Rate</div>
+                <div className="text-lg font-bold text-green-900">
+                  {(monthlyReports.reduce((sum, report) => 
+                    sum + (report.resolvedIssues / report.totalIssues * 100), 0) / monthlyReports.length).toFixed(1)}%
+                </div>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-purple-600 font-medium">Total Cost</div>
+                <div className="text-lg font-bold text-purple-900">
+                  ${monthlyReports.reduce((sum, report) => sum + report.totalCost, 0).toLocaleString()}
+                </div>
+              </div>
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <div className="text-sm text-orange-600 font-medium">Avg Resolution Time</div>
+                <div className="text-lg font-bold text-orange-900">
+                  {(monthlyReports.reduce((sum, report) => sum + report.avgResolutionTime, 0) / monthlyReports.length).toFixed(1)} days
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

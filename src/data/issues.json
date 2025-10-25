@@ -3,14 +3,15 @@
     {
       "user_id": "1761335666815k8sd30ib0",
       "issue_type": "pothole",
-      "description": "asdf",
+      "description": "Large pothole on Main Street near the intersection causing vehicle damage",
       "photo_url": null,
       "latitude": 22.289666500000003,
       "longitude": 73.36417325,
-      "status": "in_progress",
+      "status": "resolved",
+      "priority": "high",
       "id": "176133655170935tg0y5e0",
       "created_at": "2025-10-24T20:09:11.709Z",
-      "updated_at": "2025-10-24T20:18:39.397Z",
+      "updated_at": "2025-10-26T14:30:00.000Z",
       "public_comments": [
         {
           "id": "comment-2",
@@ -20,6 +21,15 @@
           "author_name": "City Administrator",
           "comment": "Thank you for reporting this pothole. Our road maintenance team has been notified and will address this issue within the next week.",
           "created_at": "2025-10-24T20:15:00.000Z"
+        },
+        {
+          "id": "comment-3",
+          "issue_id": "176133655170935tg0y5e0",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "The pothole has been successfully repaired. Thank you for your patience.",
+          "created_at": "2025-10-26T14:30:00.000Z"
         }
       ],
       "status_history": [
@@ -32,21 +42,67 @@
           "changed_by_name": "City Administrator",
           "changed_at": "2025-10-24T20:18:39.397Z",
           "comment": "Issue assigned to road maintenance team"
+        },
+        {
+          "id": "status-3",
+          "issue_id": "176133655170935tg0y5e0",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T14:30:00.000Z",
+          "comment": "Pothole repair completed successfully"
         }
       ]
     },
     {
-      "user_id": "1761335666815k8sd30ib0",
+      "user_id": "1761400000010bcd890efg",
+      "issue_type": "pothole",
+      "description": "Same pothole on Main Street - damaged my car tire yesterday",
+      "priority": "high",
+      "latitude": 22.289666500000003,
+      "longitude": 73.36417325,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000010pothole002",
+      "created_at": "2025-10-25T23:45:55.890Z",
+      "updated_at": "2025-10-26T14:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-pothole-2",
+          "issue_id": "1761400000010pothole002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same pothole reported earlier. The repair has been completed successfully.",
+          "created_at": "2025-10-26T14:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-pothole-2",
+          "issue_id": "1761400000010pothole002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T14:30:00.000Z",
+          "comment": "Linked to existing pothole repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761396234484vbvmk3i07",
       "issue_type": "garbage",
-      "description": "aaa",
+      "description": "Garbage collection bins overflowing in residential area, causing foul smell",
       "priority": "high",
       "latitude": 22.289649431080626,
       "longitude": 73.36413926998995,
       "status": "in_progress",
       "is_anonymous": false,
       "id": "1761343973468icjwkjqh7",
-      "created_at": "2025-10-24T22:12:53.468Z",
-      "updated_at": "2025-10-25T07:40:52.002Z",
+      "created_at": "2025-10-25T12:43:54.484Z",
+      "updated_at": "2025-10-26T10:15:00.000Z",
       "public_comments": [
         {
           "id": "comment-1",
@@ -68,6 +124,1865 @@
           "changed_by_name": "City Administrator",
           "changed_at": "2025-10-25T07:40:52.002Z",
           "comment": "Issue assigned to cleanup team"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000008vwx234yza",
+      "issue_type": "garbage",
+      "description": "Same garbage issue - bins overflowing and attracting stray animals",
+      "priority": "high",
+      "latitude": 22.289649431080626,
+      "longitude": 73.36413926998995,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000008garbage002",
+      "created_at": "2025-10-25T21:15:33.234Z",
+      "updated_at": "2025-10-26T10:15:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-garbage-2",
+          "issue_id": "1761400000008garbage002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same garbage collection issue reported earlier. Our cleanup team is addressing the root cause affecting multiple buildings.",
+          "created_at": "2025-10-26T10:15:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-garbage-2",
+          "issue_id": "1761400000008garbage002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T10:15:00.000Z",
+          "comment": "Linked to existing garbage cleanup work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761396270390yn718qpah",
+      "issue_type": "streetlight",
+      "description": "Street light not working on Park Avenue, making the area unsafe at night",
+      "priority": "medium",
+      "latitude": 22.290123456789,
+      "longitude": 73.365123456789,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000001streetlight001",
+      "created_at": "2025-10-25T12:44:30.390Z",
+      "updated_at": "2025-10-25T12:44:30.390Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000009yza567bcd",
+      "issue_type": "streetlight",
+      "description": "Same street light issue on Park Avenue - area is completely dark at night",
+      "priority": "medium",
+      "latitude": 22.290123456789,
+      "longitude": 73.365123456789,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000001streetlight002",
+      "created_at": "2025-10-25T22:30:44.567Z",
+      "updated_at": "2025-10-25T22:30:44.567Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000001abc123def",
+      "issue_type": "water_leak",
+      "description": "Water leak from main pipeline on Oak Street, water wastage and road damage",
+      "priority": "high",
+      "latitude": 22.291234567890,
+      "longitude": 73.366234567890,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000002waterleak001",
+      "created_at": "2025-10-25T14:30:15.123Z",
+      "updated_at": "2025-10-26T09:20:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-water-1",
+          "issue_id": "1761400000002waterleak001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Water department has been notified. Emergency repair team is on the way.",
+          "created_at": "2025-10-25T15:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-water-1",
+          "issue_id": "1761400000002waterleak001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T09:20:00.000Z",
+          "comment": "Emergency repair team dispatched"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000011efg123hij",
+      "issue_type": "water_leak",
+      "description": "Same water leak on Oak Street - water pressure is very low in our building",
+      "priority": "high",
+      "latitude": 22.291234567890,
+      "longitude": 73.366234567890,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000011waterleak002",
+      "created_at": "2025-10-26T00:10:11.123Z",
+      "updated_at": "2025-10-26T09:20:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-water-2",
+          "issue_id": "1761400000011waterleak002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same water leak issue reported earlier. Our emergency repair team is working on the main pipeline.",
+          "created_at": "2025-10-26T09:20:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-water-2",
+          "issue_id": "1761400000011waterleak002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T09:20:00.000Z",
+          "comment": "Linked to existing water leak repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000002def456ghi",
+      "issue_type": "traffic_signal",
+      "description": "Traffic signal malfunction at Central Square intersection",
+      "priority": "high",
+      "latitude": 22.292345678901,
+      "longitude": 73.367345678901,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000003traffic001",
+      "created_at": "2025-10-25T15:45:22.456Z",
+      "updated_at": "2025-10-26T16:45:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-traffic-1",
+          "issue_id": "1761400000003traffic001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Traffic signal repair completed. Signal is now functioning normally.",
+          "created_at": "2025-10-26T16:45:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-traffic-1",
+          "issue_id": "1761400000003traffic001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-25T16:00:00.000Z",
+          "comment": "Traffic department notified"
+        },
+        {
+          "id": "status-traffic-2",
+          "issue_id": "1761400000003traffic001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T16:45:00.000Z",
+          "comment": "Signal repair completed"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000012hij456klm",
+      "issue_type": "traffic_signal",
+      "description": "Same traffic signal issue at Central Square - causing traffic jams",
+      "priority": "high",
+      "latitude": 22.292345678901,
+      "longitude": 73.367345678901,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000012traffic002",
+      "created_at": "2025-10-26T01:25:22.456Z",
+      "updated_at": "2025-10-26T16:45:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-traffic-2",
+          "issue_id": "1761400000012traffic002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same traffic signal issue reported earlier. The repair has been completed successfully.",
+          "created_at": "2025-10-26T16:45:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-traffic-3",
+          "issue_id": "1761400000012traffic002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T16:45:00.000Z",
+          "comment": "Linked to existing traffic signal repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000003ghi789jkl",
+      "issue_type": "drainage",
+      "description": "Sewer blockage causing water backup in residential area",
+      "priority": "high",
+      "latitude": 22.293456789012,
+      "longitude": 73.368456789012,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000004sewer001",
+      "created_at": "2025-10-25T16:20:33.789Z",
+      "updated_at": "2025-10-26T11:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-sewer-1",
+          "issue_id": "1761400000004sewer001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Sewer maintenance team is working on clearing the blockage. Expected completion within 24 hours.",
+          "created_at": "2025-10-26T11:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-sewer-1",
+          "issue_id": "1761400000004sewer001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T11:30:00.000Z",
+          "comment": "Sewer maintenance team dispatched"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000004jkl012mno",
+      "issue_type": "drainage",
+      "description": "Same sewer blockage affecting our building - water backing up into basement",
+      "priority": "high",
+      "latitude": 22.293456789012,
+      "longitude": 73.368456789012,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000004sewer002",
+      "created_at": "2025-10-25T17:10:44.012Z",
+      "updated_at": "2025-10-26T11:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-sewer-2",
+          "issue_id": "1761400000004sewer002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same sewer blockage reported earlier. Our team is addressing the root cause affecting multiple buildings in the area.",
+          "created_at": "2025-10-26T11:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-sewer-2",
+          "issue_id": "1761400000004sewer002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T11:30:00.000Z",
+          "comment": "Linked to existing sewer maintenance work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000005mno345pqr",
+      "issue_type": "broken_sidewalk",
+      "description": "Broken sidewalk tiles creating tripping hazard for pedestrians",
+      "priority": "medium",
+      "latitude": 22.294567890123,
+      "longitude": 73.369567890123,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000005sidewalk001",
+      "created_at": "2025-10-25T17:10:44.012Z",
+      "updated_at": "2025-10-25T17:10:44.012Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000006pqr678stu",
+      "issue_type": "broken_sidewalk",
+      "description": "Same broken sidewalk area - tiles are loose and dangerous for elderly residents",
+      "priority": "medium",
+      "latitude": 22.294567890123,
+      "longitude": 73.369567890123,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000005sidewalk002",
+      "created_at": "2025-10-25T19:40:11.678Z",
+      "updated_at": "2025-10-25T19:40:11.678Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000005mno345pqr",
+      "issue_type": "noise_complaint",
+      "description": "Excessive noise from construction site during night hours",
+      "priority": "medium",
+      "latitude": 22.295678901234,
+      "longitude": 73.370678901234,
+      "status": "resolved",
+      "is_anonymous": true,
+      "id": "1761400000006noise001",
+      "created_at": "2025-10-25T18:25:55.345Z",
+      "updated_at": "2025-10-26T18:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-noise-1",
+          "issue_id": "1761400000006noise001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Construction company has been notified to follow noise regulations. Issue resolved.",
+          "created_at": "2025-10-26T18:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-noise-1",
+          "issue_id": "1761400000006noise001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-25T19:00:00.000Z",
+          "comment": "Environmental department investigating"
+        },
+        {
+          "id": "status-noise-2",
+          "issue_id": "1761400000006noise001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T18:00:00.000Z",
+          "comment": "Construction company compliance verified"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000006pqr678stu",
+      "issue_type": "noise_complaint",
+      "description": "Same noise pollution issue - construction site still making excessive noise at night",
+      "priority": "medium",
+      "latitude": 22.295678901234,
+      "longitude": 73.370678901234,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000006noise002",
+      "created_at": "2025-10-25T19:40:11.678Z",
+      "updated_at": "2025-10-26T18:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-noise-2",
+          "issue_id": "1761400000006noise002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same noise pollution issue reported earlier. The construction company has been notified and compliance verified.",
+          "created_at": "2025-10-26T18:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-noise-3",
+          "issue_id": "1761400000006noise002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T18:00:00.000Z",
+          "comment": "Linked to existing noise pollution compliance work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000007stu901vwx",
+      "issue_type": "tree_maintenance",
+      "description": "Same playground equipment issue - swing is broken and unsafe for children",
+      "priority": "medium",
+      "latitude": 22.296789012345,
+      "longitude": 73.371789012345,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000007park002",
+      "created_at": "2025-10-25T20:55:22.901Z",
+      "updated_at": "2025-10-26T13:15:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-park-2",
+          "issue_id": "1761400000007park002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same playground equipment issue reported earlier. Our parks team is addressing all equipment in Central Park.",
+          "created_at": "2025-10-26T13:15:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-park-2",
+          "issue_id": "1761400000007park002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T13:15:00.000Z",
+          "comment": "Linked to existing park maintenance work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000007stu901vwx",
+      "issue_type": "street_sign",
+      "description": "Missing street sign at Elm Street intersection causing confusion",
+      "priority": "low",
+      "latitude": 22.297890123456,
+      "longitude": 73.372890123456,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000008sign001",
+      "created_at": "2025-10-25T20:55:22.901Z",
+      "updated_at": "2025-10-25T20:55:22.901Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000008vwx234yza",
+      "issue_type": "street_sign",
+      "description": "Same street sign issue - missing sign still causing confusion at Elm Street",
+      "priority": "low",
+      "latitude": 22.297890123456,
+      "longitude": 73.372890123456,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000008sign002",
+      "created_at": "2025-10-25T21:15:33.234Z",
+      "updated_at": "2025-10-25T21:15:33.234Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000008vwx234yza",
+      "issue_type": "drainage",
+      "description": "Poor drainage causing water logging during rains",
+      "priority": "high",
+      "latitude": 22.298901234567,
+      "longitude": 73.373901234567,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000009drainage001",
+      "created_at": "2025-10-25T21:15:33.234Z",
+      "updated_at": "2025-10-26T15:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-drainage-1",
+          "issue_id": "1761400000009drainage001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Drainage system has been cleaned and improved. Issue resolved.",
+          "created_at": "2025-10-26T15:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-drainage-1",
+          "issue_id": "1761400000009drainage001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T08:00:00.000Z",
+          "comment": "Public works department assigned"
+        },
+        {
+          "id": "status-drainage-2",
+          "issue_id": "1761400000009drainage001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T15:30:00.000Z",
+          "comment": "Drainage improvement completed"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000013klm789nop",
+      "issue_type": "drainage",
+      "description": "Same drainage issue - water logging affecting our street during rains",
+      "priority": "high",
+      "latitude": 22.298901234567,
+      "longitude": 73.373901234567,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000013drainage002",
+      "created_at": "2025-10-26T02:40:33.789Z",
+      "updated_at": "2025-10-26T15:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-drainage-2",
+          "issue_id": "1761400000013drainage002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same drainage issue reported earlier. The improvement work has been completed successfully.",
+          "created_at": "2025-10-26T15:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-drainage-3",
+          "issue_id": "1761400000013drainage002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T15:30:00.000Z",
+          "comment": "Linked to existing drainage improvement work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000009yza567bcd",
+      "issue_type": "traffic_signal",
+      "description": "Bus stop shelter damaged and needs repair",
+      "priority": "medium",
+      "latitude": 22.299012345678,
+      "longitude": 73.374012345678,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000010busstop001",
+      "created_at": "2025-10-25T22:30:44.567Z",
+      "updated_at": "2025-10-26T12:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-bus-1",
+          "issue_id": "1761400000010busstop001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Transport department is coordinating repair work. Temporary shelter provided.",
+          "created_at": "2025-10-26T12:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-bus-1",
+          "issue_id": "1761400000010busstop001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T12:00:00.000Z",
+          "comment": "Transport department assigned"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000010bcd890efg",
+      "issue_type": "traffic_signal",
+      "description": "Same bus stop issue - shelter still damaged and needs repair",
+      "priority": "medium",
+      "latitude": 22.299012345678,
+      "longitude": 73.374012345678,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000010busstop002",
+      "created_at": "2025-10-25T23:45:55.890Z",
+      "updated_at": "2025-10-26T12:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-bus-2",
+          "issue_id": "1761400000010busstop002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same bus stop shelter issue reported earlier. Our transport department is coordinating repair work.",
+          "created_at": "2025-10-26T12:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-bus-2",
+          "issue_id": "1761400000010busstop002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T12:00:00.000Z",
+          "comment": "Linked to existing bus stop repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000010bcd890efg",
+      "issue_type": "traffic_signal",
+      "description": "Bus stop shelter damaged and needs repair",
+      "priority": "medium",
+      "latitude": 22.299012345678,
+      "longitude": 73.374012345678,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000010busstop003",
+      "created_at": "2025-10-25T23:45:55.890Z",
+      "updated_at": "2025-10-26T12:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-bus-3",
+          "issue_id": "1761400000010busstop003",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same bus stop shelter issue reported earlier. Our transport department is coordinating repair work.",
+          "created_at": "2025-10-26T12:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-bus-3",
+          "issue_id": "1761400000010busstop003",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T12:00:00.000Z",
+          "comment": "Linked to existing bus stop repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000011efg123hij",
+      "issue_type": "graffiti",
+      "description": "Same graffiti issue - vandalism still visible on public building",
+      "priority": "low",
+      "latitude": 22.300123456789,
+      "longitude": 73.375123456789,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000011graffiti002",
+      "created_at": "2025-10-26T00:10:11.123Z",
+      "updated_at": "2025-10-26T00:10:11.123Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000011efg123hij",
+      "issue_type": "tree_maintenance",
+      "description": "Dead tree branches hanging dangerously over sidewalk",
+      "priority": "high",
+      "latitude": 22.301234567890,
+      "longitude": 73.376234567890,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000012tree001",
+      "created_at": "2025-10-26T00:10:11.123Z",
+      "updated_at": "2025-10-26T17:20:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-tree-1",
+          "issue_id": "1761400000012tree001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Tree maintenance completed. Dangerous branches removed safely.",
+          "created_at": "2025-10-26T17:20:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-tree-1",
+          "issue_id": "1761400000012tree001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T09:00:00.000Z",
+          "comment": "Arborist team dispatched"
+        },
+        {
+          "id": "status-tree-2",
+          "issue_id": "1761400000012tree001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T17:20:00.000Z",
+          "comment": "Tree maintenance completed"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000014nop012qrs",
+      "issue_type": "tree_maintenance",
+      "description": "Same tree issue - branches are still hanging dangerously over our building",
+      "priority": "high",
+      "latitude": 22.301234567890,
+      "longitude": 73.376234567890,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000014tree002",
+      "created_at": "2025-10-26T03:55:44.012Z",
+      "updated_at": "2025-10-26T17:20:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-tree-2",
+          "issue_id": "1761400000014tree002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same tree maintenance issue reported earlier. The dangerous branches have been removed successfully.",
+          "created_at": "2025-10-26T17:20:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-tree-3",
+          "issue_id": "1761400000014tree002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T17:20:00.000Z",
+          "comment": "Linked to existing tree maintenance work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000012hij456klm",
+      "issue_type": "parking_violation",
+      "description": "Illegal parking blocking fire hydrant access",
+      "priority": "high",
+      "latitude": 22.302345678901,
+      "longitude": 73.377345678901,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000013parking001",
+      "created_at": "2025-10-26T01:25:22.456Z",
+      "updated_at": "2025-10-26T14:45:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-parking-1",
+          "issue_id": "1761400000013parking001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Traffic enforcement team has been notified. Vehicle will be towed if not moved.",
+          "created_at": "2025-10-26T14:45:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-parking-1",
+          "issue_id": "1761400000013parking001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T14:45:00.000Z",
+          "comment": "Traffic enforcement dispatched"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000015qrs345tuv",
+      "issue_type": "parking_violation",
+      "description": "Same parking violation - vehicle still blocking fire hydrant",
+      "priority": "high",
+      "latitude": 22.302345678901,
+      "longitude": 73.377345678901,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000015parking002",
+      "created_at": "2025-10-26T05:10:55.345Z",
+      "updated_at": "2025-10-26T14:45:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-parking-2",
+          "issue_id": "1761400000015parking002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same parking violation reported earlier. Our traffic enforcement team is addressing this issue.",
+          "created_at": "2025-10-26T14:45:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-parking-2",
+          "issue_id": "1761400000015parking002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T14:45:00.000Z",
+          "comment": "Linked to existing parking violation enforcement"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000013klm789nop",
+      "issue_type": "garbage",
+      "description": "Public toilet facility out of order and needs maintenance",
+      "priority": "medium",
+      "latitude": 22.303456789012,
+      "longitude": 73.378456789012,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000014toilet001",
+      "created_at": "2025-10-26T02:40:33.789Z",
+      "updated_at": "2025-10-26T02:40:33.789Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000014nop012qrs",
+      "issue_type": "garbage",
+      "description": "Same public toilet issue - still out of order and needs maintenance",
+      "priority": "medium",
+      "latitude": 22.303456789012,
+      "longitude": 73.378456789012,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000014toilet002",
+      "created_at": "2025-10-26T03:55:44.012Z",
+      "updated_at": "2025-10-26T03:55:44.012Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000014nop012qrs",
+      "issue_type": "garbage",
+      "description": "Same public toilet issue - still out of order and needs maintenance",
+      "priority": "medium",
+      "latitude": 22.303456789012,
+      "longitude": 73.378456789012,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000014toilet002",
+      "created_at": "2025-10-26T03:55:44.012Z",
+      "updated_at": "2025-10-26T03:55:44.012Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000014nop012qrs",
+      "issue_type": "broken_sidewalk",
+      "description": "Road construction debris not cleaned up after project completion",
+      "priority": "medium",
+      "latitude": 22.304567890123,
+      "longitude": 73.379567890123,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000015construction001",
+      "created_at": "2025-10-26T03:55:44.012Z",
+      "updated_at": "2025-10-26T19:15:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-construction-1",
+          "issue_id": "1761400000015construction001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Construction debris has been cleared. Area cleaned and restored.",
+          "created_at": "2025-10-26T19:15:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-construction-1",
+          "issue_id": "1761400000015construction001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T10:00:00.000Z",
+          "comment": "Public works cleanup team assigned"
+        },
+        {
+          "id": "status-construction-2",
+          "issue_id": "1761400000015construction001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T19:15:00.000Z",
+          "comment": "Cleanup completed"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000015qrs345tuv",
+      "issue_type": "broken_sidewalk",
+      "description": "Same road construction debris issue - area still not cleaned up",
+      "priority": "medium",
+      "latitude": 22.304567890123,
+      "longitude": 73.379567890123,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000015construction002",
+      "created_at": "2025-10-26T05:10:55.345Z",
+      "updated_at": "2025-10-26T19:15:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-construction-2",
+          "issue_id": "1761400000015construction002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same road construction debris issue reported earlier. The cleanup has been completed successfully.",
+          "created_at": "2025-10-26T19:15:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-construction-3",
+          "issue_id": "1761400000015construction002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T19:15:00.000Z",
+          "comment": "Linked to existing road construction cleanup work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000015qrs345tuv",
+      "issue_type": "parking_violation",
+      "description": "Unauthorized street vendor blocking pedestrian walkway",
+      "priority": "low",
+      "latitude": 22.305678901234,
+      "longitude": 73.380678901234,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000016vendor001",
+      "created_at": "2025-10-26T05:10:55.345Z",
+      "updated_at": "2025-10-26T16:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-vendor-1",
+          "issue_id": "1761400000016vendor001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Municipal enforcement team is addressing the vendor issue.",
+          "created_at": "2025-10-26T16:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-vendor-1",
+          "issue_id": "1761400000016vendor001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T16:30:00.000Z",
+          "comment": "Municipal enforcement dispatched"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000016tuv678wxy",
+      "issue_type": "parking_violation",
+      "description": "Same street vendor issue - still blocking pedestrian walkway",
+      "priority": "low",
+      "latitude": 22.305678901234,
+      "longitude": 73.380678901234,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000016vendor002",
+      "created_at": "2025-10-26T06:25:11.678Z",
+      "updated_at": "2025-10-26T16:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-vendor-2",
+          "issue_id": "1761400000016vendor002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same street vendor issue reported earlier. Our municipal enforcement team is addressing this.",
+          "created_at": "2025-10-26T16:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-vendor-2",
+          "issue_id": "1761400000016vendor002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T16:30:00.000Z",
+          "comment": "Linked to existing street vendor enforcement work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000016tuv678wxy",
+      "issue_type": "broken_sidewalk",
+      "description": "Broken public bench in city park needs replacement",
+      "priority": "low",
+      "latitude": 22.306789012345,
+      "longitude": 73.381789012345,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000017bench001",
+      "created_at": "2025-10-26T06:25:11.678Z",
+      "updated_at": "2025-10-26T06:25:11.678Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000017wxy901zab",
+      "issue_type": "broken_sidewalk",
+      "description": "Same public bench issue - still broken and needs replacement",
+      "priority": "low",
+      "latitude": 22.306789012345,
+      "longitude": 73.381789012345,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000017bench002",
+      "created_at": "2025-10-26T07:40:22.901Z",
+      "updated_at": "2025-10-26T07:40:22.901Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000017wxy901zab",
+      "issue_type": "broken_sidewalk",
+      "description": "Same public bench issue - still broken and needs replacement",
+      "priority": "low",
+      "latitude": 22.306789012345,
+      "longitude": 73.381789012345,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000017bench002",
+      "created_at": "2025-10-26T07:40:22.901Z",
+      "updated_at": "2025-10-26T07:40:22.901Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000017wxy901zab",
+      "issue_type": "water_leak",
+      "description": "Discolored water coming from municipal supply",
+      "priority": "high",
+      "latitude": 22.307890123456,
+      "longitude": 73.382890123456,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000018waterquality001",
+      "created_at": "2025-10-26T07:40:22.901Z",
+      "updated_at": "2025-10-26T20:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-waterquality-1",
+          "issue_id": "1761400000018waterquality001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Water quality issue resolved. System flushed and tested. Water is safe for consumption.",
+          "created_at": "2025-10-26T20:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-waterquality-1",
+          "issue_id": "1761400000018waterquality001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T08:30:00.000Z",
+          "comment": "Water department emergency team dispatched"
+        },
+        {
+          "id": "status-waterquality-2",
+          "issue_id": "1761400000018waterquality001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T20:00:00.000Z",
+          "comment": "Water quality restored"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000018zab234cde",
+      "issue_type": "water_leak",
+      "description": "Same water quality issue - water is still discolored and has strange taste",
+      "priority": "high",
+      "latitude": 22.307890123456,
+      "longitude": 73.382890123456,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000018waterquality002",
+      "created_at": "2025-10-26T08:55:33.234Z",
+      "updated_at": "2025-10-26T20:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-waterquality-2",
+          "issue_id": "1761400000018waterquality002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same water quality issue reported earlier. The system has been flushed and water quality restored.",
+          "created_at": "2025-10-26T20:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-waterquality-3",
+          "issue_id": "1761400000018waterquality002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T20:00:00.000Z",
+          "comment": "Linked to existing water quality restoration work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000019cde567fgh",
+      "issue_type": "streetlight",
+      "description": "Same street light issue - flickering and needs electrical repair",
+      "priority": "medium",
+      "latitude": 22.308901234567,
+      "longitude": 73.383901234567,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000019electricity002",
+      "created_at": "2025-10-26T10:10:44.567Z",
+      "updated_at": "2025-10-26T15:45:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-electricity-2",
+          "issue_id": "1761400000019electricity002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same street light issue reported earlier. Our electrical department is working on the repair.",
+          "created_at": "2025-10-26T15:45:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-electricity-2",
+          "issue_id": "1761400000019electricity002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T15:45:00.000Z",
+          "comment": "Linked to existing electrical repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000019cde567fgh",
+      "issue_type": "water_leak",
+      "description": "Public fountain not working and needs maintenance",
+      "priority": "low",
+      "latitude": 22.309012345678,
+      "longitude": 73.384012345678,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000020fountain001",
+      "created_at": "2025-10-26T10:10:44.567Z",
+      "updated_at": "2025-10-26T10:10:44.567Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000020fgh890ijk",
+      "issue_type": "water_leak",
+      "description": "Same public fountain issue - still not working and needs maintenance",
+      "priority": "low",
+      "latitude": 22.309012345678,
+      "longitude": 73.384012345678,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000020fountain002",
+      "created_at": "2025-10-26T11:25:55.890Z",
+      "updated_at": "2025-10-26T11:25:55.890Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000020fgh890ijk",
+      "issue_type": "water_leak",
+      "description": "Same public fountain issue - still not working and needs maintenance",
+      "priority": "low",
+      "latitude": 22.309012345678,
+      "longitude": 73.384012345678,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000020fountain002",
+      "created_at": "2025-10-26T11:25:55.890Z",
+      "updated_at": "2025-10-26T11:25:55.890Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000020fgh890ijk",
+      "issue_type": "street_sign",
+      "description": "Road sign damaged and unreadable",
+      "priority": "medium",
+      "latitude": 22.310123456789,
+      "longitude": 73.385123456789,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000021roadsign001",
+      "created_at": "2025-10-26T11:25:55.890Z",
+      "updated_at": "2025-10-26T18:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-roadsign-1",
+          "issue_id": "1761400000021roadsign001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Road sign has been replaced and is now clearly visible.",
+          "created_at": "2025-10-26T18:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-roadsign-1",
+          "issue_id": "1761400000021roadsign001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T12:00:00.000Z",
+          "comment": "Traffic department assigned"
+        },
+        {
+          "id": "status-roadsign-2",
+          "issue_id": "1761400000021roadsign001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T18:30:00.000Z",
+          "comment": "Road sign replaced"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000021ijk123lmn",
+      "issue_type": "street_sign",
+      "description": "Same road sign issue - still damaged and unreadable",
+      "priority": "medium",
+      "latitude": 22.310123456789,
+      "longitude": 73.385123456789,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000021roadsign002",
+      "created_at": "2025-10-26T12:40:11.123Z",
+      "updated_at": "2025-10-26T18:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-roadsign-2",
+          "issue_id": "1761400000021roadsign002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same road sign issue reported earlier. The sign has been replaced successfully.",
+          "created_at": "2025-10-26T18:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-roadsign-3",
+          "issue_id": "1761400000021roadsign002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T18:30:00.000Z",
+          "comment": "Linked to existing road sign replacement work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000021ijk123lmn",
+      "issue_type": "streetlight",
+      "description": "Public WiFi hotspot not functioning in city center",
+      "priority": "low",
+      "latitude": 22.311234567890,
+      "longitude": 73.386234567890,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000022wifi001",
+      "created_at": "2025-10-26T12:40:11.123Z",
+      "updated_at": "2025-10-26T17:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-wifi-1",
+          "issue_id": "1761400000022wifi001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "IT department is troubleshooting the WiFi connectivity issue.",
+          "created_at": "2025-10-26T17:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-wifi-1",
+          "issue_id": "1761400000022wifi001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T17:00:00.000Z",
+          "comment": "IT department assigned"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000022lmn456opq",
+      "issue_type": "streetlight",
+      "description": "Same WiFi issue - still not working in city center",
+      "priority": "low",
+      "latitude": 22.311234567890,
+      "longitude": 73.386234567890,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000022wifi002",
+      "created_at": "2025-10-26T13:55:22.456Z",
+      "updated_at": "2025-10-26T17:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-wifi-2",
+          "issue_id": "1761400000022wifi002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same WiFi connectivity issue reported earlier. Our IT department is working on resolving this.",
+          "created_at": "2025-10-26T17:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-wifi-2",
+          "issue_id": "1761400000022wifi002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T17:00:00.000Z",
+          "comment": "Linked to existing WiFi troubleshooting work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000022lmn456opq",
+      "issue_type": "streetlight",
+      "description": "Same WiFi issue - still not working in city center",
+      "priority": "low",
+      "latitude": 22.311234567890,
+      "longitude": 73.386234567890,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000022wifi002",
+      "created_at": "2025-10-26T13:55:22.456Z",
+      "updated_at": "2025-10-26T17:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-wifi-2",
+          "issue_id": "1761400000022wifi002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same WiFi connectivity issue reported earlier. Our IT department is working on resolving this.",
+          "created_at": "2025-10-26T17:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-wifi-2",
+          "issue_id": "1761400000022wifi002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T17:00:00.000Z",
+          "comment": "Linked to existing WiFi troubleshooting work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000022lmn456opq",
+      "issue_type": "broken_sidewalk",
+      "description": "Bike lane blocked by construction materials",
+      "priority": "medium",
+      "latitude": 22.312345678901,
+      "longitude": 73.387345678901,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000023bikelane001",
+      "created_at": "2025-10-26T13:55:22.456Z",
+      "updated_at": "2025-10-26T13:55:22.456Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000023opq789rst",
+      "issue_type": "broken_sidewalk",
+      "description": "Same bike lane issue - construction materials still blocking the path",
+      "priority": "medium",
+      "latitude": 22.312345678901,
+      "longitude": 73.387345678901,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000023bikelane002",
+      "created_at": "2025-10-26T15:10:33.789Z",
+      "updated_at": "2025-10-26T15:10:33.789Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000023opq789rst",
+      "issue_type": "broken_sidewalk",
+      "description": "Same bike lane issue - construction materials still blocking the path",
+      "priority": "medium",
+      "latitude": 22.312345678901,
+      "longitude": 73.387345678901,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000023bikelane002",
+      "created_at": "2025-10-26T15:10:33.789Z",
+      "updated_at": "2025-10-26T15:10:33.789Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000023opq789rst",
+      "issue_type": "garbage",
+      "description": "Air conditioning not working in public library",
+      "priority": "medium",
+      "latitude": 22.313456789012,
+      "longitude": 73.388456789012,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000024library001",
+      "created_at": "2025-10-26T15:10:33.789Z",
+      "updated_at": "2025-10-26T21:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-library-1",
+          "issue_id": "1761400000024library001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Library AC system has been repaired and is functioning normally.",
+          "created_at": "2025-10-26T21:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-library-1",
+          "issue_id": "1761400000024library001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T16:00:00.000Z",
+          "comment": "Facilities maintenance assigned"
+        },
+        {
+          "id": "status-library-2",
+          "issue_id": "1761400000024library001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T21:00:00.000Z",
+          "comment": "AC repair completed"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000024rst012uvw",
+      "issue_type": "garbage",
+      "description": "Same library AC issue - still not working properly",
+      "priority": "medium",
+      "latitude": 22.313456789012,
+      "longitude": 73.388456789012,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000024library002",
+      "created_at": "2025-10-26T16:25:44.012Z",
+      "updated_at": "2025-10-26T21:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-library-2",
+          "issue_id": "1761400000024library002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same library AC issue reported earlier. The repair has been completed successfully.",
+          "created_at": "2025-10-26T21:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-library-3",
+          "issue_id": "1761400000024library002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T21:00:00.000Z",
+          "comment": "Linked to existing library AC repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000025uvw345xyz",
+      "issue_type": "graffiti",
+      "description": "Same public art vandalism - graffiti still visible on sculpture",
+      "priority": "low",
+      "latitude": 22.314567890123,
+      "longitude": 73.389567890123,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000025publicart002",
+      "created_at": "2025-10-26T17:40:55.345Z",
+      "updated_at": "2025-10-26T19:45:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-art-2",
+          "issue_id": "1761400000025publicart002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same public art vandalism issue reported earlier. Our cultural department is coordinating restoration work.",
+          "created_at": "2025-10-26T19:45:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-art-2",
+          "issue_id": "1761400000025publicart002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T19:45:00.000Z",
+          "comment": "Linked to existing public art restoration work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000025uvw345xyz",
+      "issue_type": "traffic_signal",
+      "description": "Emergency phone booth not functioning",
+      "priority": "high",
+      "latitude": 22.315678901234,
+      "longitude": 73.390678901234,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000026emergency001",
+      "created_at": "2025-10-26T17:40:55.345Z",
+      "updated_at": "2025-10-26T17:40:55.345Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000026xyz678abc",
+      "issue_type": "traffic_signal",
+      "description": "Same emergency phone booth issue - still not working",
+      "priority": "high",
+      "latitude": 22.315678901234,
+      "longitude": 73.390678901234,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000026emergency002",
+      "created_at": "2025-10-26T18:55:11.678Z",
+      "updated_at": "2025-10-26T18:55:11.678Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000029ghi567jkl",
+      "issue_type": "garbage",
+      "description": "Illegal dumping of construction waste in public area",
+      "priority": "high",
+      "latitude": 22.319012345678,
+      "longitude": 73.394012345678,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000030dumping001",
+      "created_at": "2025-10-26T22:40:44.567Z",
+      "updated_at": "2025-10-27T08:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-dumping-1",
+          "issue_id": "1761400000030dumping001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Illegal dumping cleaned up. Environmental enforcement team investigating source.",
+          "created_at": "2025-10-27T08:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-dumping-1",
+          "issue_id": "1761400000030dumping001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-27T06:00:00.000Z",
+          "comment": "Environmental enforcement assigned"
+        },
+        {
+          "id": "status-dumping-2",
+          "issue_id": "1761400000030dumping001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-27T08:00:00.000Z",
+          "comment": "Cleanup completed, investigation ongoing"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000026xyz678abc",
+      "issue_type": "garbage",
+      "description": "Same environmental issue - construction waste still being dumped illegally",
+      "priority": "high",
+      "latitude": 22.319012345678,
+      "longitude": 73.394012345678,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000026dumping002",
+      "created_at": "2025-10-26T18:55:11.678Z",
+      "updated_at": "2025-10-27T08:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-dumping-2",
+          "issue_id": "1761400000026dumping002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same environmental issue reported earlier. The illegal dumping has been cleaned up and investigation is ongoing.",
+          "created_at": "2025-10-27T08:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-dumping-3",
+          "issue_id": "1761400000026dumping002",
+          "old_status": "pending",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-27T08:00:00.000Z",
+          "comment": "Linked to existing environmental cleanup work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000027abc901def",
+      "issue_type": "broken_sidewalk",
+      "description": "Community center parking lot needs resurfacing",
+      "priority": "medium",
+      "latitude": 22.316789012345,
+      "longitude": 73.391789012345,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000027parkinglot001",
+      "created_at": "2025-10-26T20:10:22.901Z",
+      "updated_at": "2025-10-26T22:15:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-parkinglot-1",
+          "issue_id": "1761400000027parkinglot001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Community center parking lot has been resurfaced and is ready for use.",
+          "created_at": "2025-10-26T22:15:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-parkinglot-1",
+          "issue_id": "1761400000027parkinglot001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T19:30:00.000Z",
+          "comment": "Public works department assigned"
+        },
+        {
+          "id": "status-parkinglot-2",
+          "issue_id": "1761400000027parkinglot001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T22:15:00.000Z",
+          "comment": "Parking lot resurfacing completed"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000028def234ghi",
+      "issue_type": "broken_sidewalk",
+      "description": "Same safety issue - broken handrail on pedestrian bridge is dangerous",
+      "priority": "high",
+      "latitude": 22.317890123456,
+      "longitude": 73.392890123456,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761400000028safety002",
+      "created_at": "2025-10-26T21:25:33.234Z",
+      "updated_at": "2025-10-26T23:30:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-safety-2",
+          "issue_id": "1761400000028safety002",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "This is the same safety hazard reported earlier. Our emergency repair team is addressing this issue.",
+          "created_at": "2025-10-26T23:30:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-safety-2",
+          "issue_id": "1761400000028safety002",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-26T23:30:00.000Z",
+          "comment": "Linked to existing safety repair work"
+        }
+      ]
+    },
+    {
+      "user_id": "1761400000028def234ghi",
+      "issue_type": "traffic_signal",
+      "description": "Bus route information display not working at terminal",
+      "priority": "medium",
+      "latitude": 22.318901234567,
+      "longitude": 73.393901234567,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000029busdisplay001",
+      "created_at": "2025-10-26T21:25:33.234Z",
+      "updated_at": "2025-10-26T21:25:33.234Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000029ghi567jkl",
+      "issue_type": "traffic_signal",
+      "description": "Same bus display issue - passengers are confused about routes",
+      "priority": "medium",
+      "latitude": 22.318901234567,
+      "longitude": 73.393901234567,
+      "status": "pending",
+      "is_anonymous": false,
+      "id": "1761400000029busdisplay002",
+      "created_at": "2025-10-26T22:40:44.567Z",
+      "updated_at": "2025-10-26T22:40:44.567Z",
+      "public_comments": [],
+      "status_history": []
+    },
+    {
+      "user_id": "1761400000029ghi567jkl",
+      "issue_type": "garbage",
+      "description": "Illegal dumping of construction waste in public area",
+      "priority": "high",
+      "latitude": 22.319012345678,
+      "longitude": 73.394012345678,
+      "status": "resolved",
+      "is_anonymous": false,
+      "id": "1761400000030dumping001",
+      "created_at": "2025-10-26T22:40:44.567Z",
+      "updated_at": "2025-10-27T08:00:00.000Z",
+      "public_comments": [
+        {
+          "id": "comment-dumping-1",
+          "issue_id": "1761400000030dumping001",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Illegal dumping cleaned up. Environmental enforcement team investigating source.",
+          "created_at": "2025-10-27T08:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-dumping-1",
+          "issue_id": "1761400000030dumping001",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-27T06:00:00.000Z",
+          "comment": "Environmental enforcement assigned"
+        },
+        {
+          "id": "status-dumping-2",
+          "issue_id": "1761400000030dumping001",
+          "old_status": "in_progress",
+          "new_status": "resolved",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-27T08:00:00.000Z",
+          "comment": "Cleanup completed, investigation ongoing"
         }
       ]
     }

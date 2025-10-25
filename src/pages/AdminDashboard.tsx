@@ -38,14 +38,17 @@ export function AdminDashboard() {
       );
     }
 
+    // Status filtering
     if (statusFilter !== 'all') {
       filtered = filtered.filter((issue) => issue.status === statusFilter);
     }
 
+    // Type filtering
     if (typeFilter !== 'all') {
       filtered = filtered.filter((issue) => issue.issue_type === typeFilter);
     }
 
+    // Priority filtering
     if (priorityFilter !== 'all') {
       filtered = filtered.filter((issue) => issue.priority === priorityFilter);
     }
@@ -73,6 +76,7 @@ export function AdminDashboard() {
       filtered = filtered.filter((issue) => new Date(issue.created_at) >= filterDate);
     }
 
+    // Sorting
     if (sortBy === 'newest') {
       filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     } else if (sortBy === 'oldest') {
@@ -88,7 +92,6 @@ export function AdminDashboard() {
       
       if (error) throw error;
       setIssues(issues);
-      setFilteredIssues(issues);
     } catch (error) {
       console.error('Error loading issues:', error);
     } finally {
@@ -235,7 +238,7 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex-grow">
       {/* Fixed left column */}
       <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-80 bg-gray-50 shadow-lg border-r border-gray-200 z-10 overflow-y-auto">
         <div className="p-3 space-y-3">

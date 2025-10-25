@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
 import { PublicDashboard } from './pages/PublicDashboard';
 import { LoginPage } from './pages/LoginPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
@@ -24,7 +25,7 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Navigate to="/home" replace />} />
@@ -46,6 +47,7 @@ function AppContent() {
         {/* Catch all route */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
