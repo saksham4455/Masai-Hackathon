@@ -91,7 +91,16 @@ export function AdminDashboard() {
       const { issues, error } = await localStorageService.getIssues();
       
       if (error) throw error;
-      setIssues(issues);
+      
+      // Deduplicate issues based on ID by keeping the latest version
+      const uniqueIssues = Object.values(issues.reduce((acc, issue) => {
+        if (!acc[issue.id] || new Date(acc[issue.id].updated_at) < new Date(issue.updated_at)) {
+          acc[issue.id] = issue;
+        }
+        return acc;
+      }, {} as Record<string, any>));
+      
+      setIssues(uniqueIssues);
     } catch (error) {
       console.error('Error loading issues:', error);
     } finally {
@@ -111,7 +120,7 @@ export function AdminDashboard() {
   };
 
   const getStatusLabel = (status: string) => {
-    return status.replace('_', ' ').toUpperCase();
+    return status ? status.replace('_', ' ').toUpperCase() : '';
   };
 
   const getPriorityColor = (priority: string) => {
@@ -130,7 +139,7 @@ export function AdminDashboard() {
   };
 
   const getPriorityLabel = (priority: string) => {
-    return priority.charAt(0).toUpperCase() + priority.slice(1);
+    return priority ? priority.charAt(0).toUpperCase() + priority.slice(1) : 'None';
   };
 
   if (!user || profile?.role !== 'admin') {
@@ -548,7 +557,7 @@ export function AdminDashboard() {
                   </tr>
                 ) : (
                   filteredIssues.map((issue) => (
-                    <tr key={issue.id} className="hover:bg-gray-50">
+                    <tr key={`${issue.id}-${issue.created_at}`} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {issue.id.slice(0, 8)}
                       </td>

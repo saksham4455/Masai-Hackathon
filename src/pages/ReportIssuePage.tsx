@@ -53,6 +53,13 @@ export function ReportIssuePage() {
     return photos.reduce((total, photo) => total + photo.size, 0);
   };
 
+  // Upload file to Firebase Storage
+  const uploadFile = async (file: File): Promise<string> => {
+    const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
+  };
+
   // Multiple photos handling
   const handlePhotosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -211,57 +218,31 @@ export function ReportIssuePage() {
 
     try {
       // Upload all files to Firebase Storage
-      const fileUrls: string[] = [];
+      let photoUrls: string[] = [];
+      let videoUrl: string | undefined;
+      let voiceNoteUrl: string | undefined;
       
       // Upload photos
       if (photos.length > 0) {
-        const photoUrls = await Promise.all(
+        photoUrls = await Promise.all(
           photos.map(photo => uploadFile(photo))
         );
-        fileUrls.push(...photoUrls);
       }
       
       // Upload video
       if (video) {
-        const videoUrl = await uploadFile(video);
-        fileUrls.push(videoUrl);
+        videoUrl = await uploadFile(video);
       }
       
       // Upload voice note
       if (voiceNote) {
         const blob = await fetch(voiceNote).then(r => r.blob());
         const file = new File([blob], 'voice-note.wav', { type: 'audio/wav' });
-        const voiceNoteUrl = await uploadFile(file);
-        fileUrls.push(voiceNoteUrl);
+        voiceNoteUrl = await uploadFile(file);
       }
 
-      // Submit complaint to Firestore
-      const complaintId = await submitComplaint({
-        userId: user?.id || 'anonymous',
-        type: issueType,
-        description,
-        location: `${latitude},${longitude}`,
-        files: fileUrls,
-        priority,
-        anonymous_email: isAnonymous ? anonymousEmail : undefined,
-      });
-
-      // Reset form
-      setType('');
-      setDescription('');
-      setLocation('');
-      setFiles(null);
-      setVideo(null);
-      setVoiceNote('');
-      setProgress(0);
-      
-      setSuccess(true);
-      alert('Complaint submitted successfully! ComplaintID: ' + complaintId);
-
-      // Navigate to complaints list after 2 seconds
-      setTimeout(() => {
-        navigate('/my-complaints');
-      }, 2000);
+      // Create issue in local storage
+      const newIssue: Omit<Issue, 'id' | 'created_at' | 'updated_at'> = {
         user_id: isAnonymous ? 'anonymous' : (user?.id || ''),
         issue_type: issueType as Issue['issue_type'],
         description,
@@ -270,16 +251,30 @@ export function ReportIssuePage() {
         video_url: videoUrl,
         voice_note_url: voiceNoteUrl,
         priority,
-        latitude,
+        latitude: latitude,
         longitude,
         status: 'pending',
         is_anonymous: isAnonymous,
         anonymous_email: isAnonymous ? anonymousEmail : undefined,
-      });
+      };
 
-      if (createError) throw createError;
+      const createdIssue = localStorageService.createIssue(newIssue);
 
+      // Reset form
+      setIssueType('pothole');
+      setDescription('');
+      setPriority('medium');
+      setPhotos([]);
+      setPhotoPreviews([]);
+      setVideo(null);
+      setVideoPreview('');
+      setVoiceNote('');
+      setRecordingDuration(0);
+      setLocationSet(false);
+      
       setSuccess(true);
+
+      // Navigate to complaints list after 2 seconds
       setTimeout(() => {
         navigate('/my-complaints');
       }, 2000);
