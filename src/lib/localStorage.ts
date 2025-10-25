@@ -63,7 +63,7 @@ export type Issue = {
 
 // Backend API service
 class BackendAPIService {
-  private baseURL = 'http://localhost:3001/api';
+  private baseURL = 'http://192.168.1.4:3001/api';
 
   // User management
   async createUser(email: string, password: string, fullName: string): Promise<{ user: User | null; error: Error | null }> {

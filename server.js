@@ -3,17 +3,115 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import cors from 'cors';
+import multer from 'multer';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/quicktime'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and MP4 files are allowed.'));
+    }
+  }
+});
+
 const app = express();
 const PORT = 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', // Be careful with this in production
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
+
+// Add security headers middleware
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*; connect-src 'self' *"
+  );
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  next();
+});
+
+// Configure MIME types
+const mimeTypes = {
+  '.js': 'text/javascript',
+  '.mjs': 'text/javascript',
+  '.cjs': 'text/javascript',
+  '.ts': 'text/javascript',
+  '.tsx': 'text/javascript',
+  '.jsx': 'text/javascript',
+  '.css': 'text/css',
+  '.html': 'text/html',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf': 'font/ttf',
+  '.eot': 'application/vnd.ms-fontobject',
+  '.otf': 'font/otf',
+  '.map': 'application/json'
+};
+
+// Custom static file serving with MIME types
+const serveStatic = (directory) => {
+  return (req, res, next) => {
+    const filePath = path.join(directory, req.path);
+    const ext = path.extname(filePath);
+    
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      const mimeType = mimeTypes[ext] || 'text/plain';
+      // Set proper headers for JavaScript/TypeScript modules
+      if (ext === '.ts' || ext === '.tsx' || ext === '.js' || ext === '.jsx' || ext === '.mjs') {
+        res.setHeader('Content-Type', 'text/javascript');
+        // Add CORS headers for modules
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      } else {
+        res.setHeader('Content-Type', mimeType);
+      }
+      res.sendFile(filePath);
+    } else {
+      next();
+    }
+  };
+};
+
+// Serve static files from build/dist directories
+app.use('/admin', express.static(path.join(__dirname, 'Admin', 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Data file paths
 const DATA_DIR = path.join(__dirname, 'src', 'data');
@@ -195,29 +293,61 @@ app.get('/api/issues', (req, res) => {
   res.json(issuesData);
 });
 
-// Create new issue
-app.post('/api/issues', (req, res) => {
-  const issueData = req.body;
+// Create new issue with file uploads
+app.post('/api/issues', upload.array('files', 5), (req, res) => {
+  try {
+    const issueData = JSON.parse(req.body.data); // Get JSON data from the form
+    const files = req.files; // Get uploaded files
 
-  if (!issueData.user_id || !issueData.issue_type || !issueData.description) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
+    if (!issueData.user_id || !issueData.issue_type || !issueData.description) {
+      // Clean up any uploaded files if validation fails
+      if (files) {
+        files.forEach(file => {
+          fs.unlinkSync(file.path);
+        });
+      }
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
-  const issuesData = readJsonFile(ISSUES_FILE);
+    const issuesData = readJsonFile(ISSUES_FILE);
 
-  const newIssue = {
-    ...issueData,
-    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  };
+    // Process uploaded files
+    const attachments = files ? files.map(file => ({
+      filename: file.filename,
+      originalName: file.originalname,
+      path: file.path.replace(__dirname, '').replace(/\\/g, '/'),
+      mimetype: file.mimetype,
+      size: file.size
+    })) : [];
 
-  issuesData.issues.push(newIssue);
+    const newIssue = {
+      ...issueData,
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      attachments,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
 
-  if (writeJsonFile(ISSUES_FILE, issuesData)) {
-    res.json({ issue: newIssue, message: 'Issue created successfully' });
-  } else {
-    res.status(500).json({ error: 'Failed to save issue data' });
+    issuesData.issues.push(newIssue);
+
+    if (writeJsonFile(ISSUES_FILE, issuesData)) {
+      res.json({ issue: newIssue, message: 'Issue created successfully' });
+    } else {
+      // Clean up uploaded files if saving fails
+      attachments.forEach(file => {
+        fs.unlinkSync(path.join(__dirname, file.path));
+      });
+      res.status(500).json({ error: 'Failed to save issue data' });
+    }
+  } catch (error) {
+    console.error('Error creating issue:', error);
+    // Clean up any uploaded files if there's an error
+    if (req.files) {
+      req.files.forEach(file => {
+        fs.unlinkSync(file.path);
+      });
+    }
+    res.status(500).json({ error: 'Failed to create issue: ' + error.message });
   }
 });
 
@@ -359,8 +489,21 @@ app.put('/api/issues/:id/admin-notes', (req, res) => {
   }
 });
 
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// SPA fallback routes
+app.get('/admin/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Admin', 'dist', 'index.html'));
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 // Start server
-app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Backend server running on http://0.0.0.0:${PORT}`);
+  console.log(`Access from other devices using http://192.168.1.4:${PORT}`);
   console.log(`Data files location: ${DATA_DIR}`);
 });

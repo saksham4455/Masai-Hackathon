@@ -1,13 +1,16 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Upload, MapPin, AlertCircle, CheckCircle, Mic, MicOff, Video, X, Camera, Volume2 } from 'lucide-react';
+import { MapPin, AlertCircle, CheckCircle, Mic, MicOff, Video, X, Camera } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { localStorageService, Issue } from '../lib/localStorage';
 import { IssueMap } from '../components/IssueMap';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { app } from '../firebase';
 
 export function ReportIssuePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const storage = getStorage(app);
   const [issueType, setIssueType] = useState('pothole');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'critical'>('medium');
@@ -207,16 +210,58 @@ export function ReportIssuePage() {
     }
 
     try {
-      // Convert photos to base64
-      const photoUrls = photoPreviews.length > 0 ? photoPreviews : undefined;
+      // Upload all files to Firebase Storage
+      const fileUrls: string[] = [];
       
-      // Convert video to base64
-      const videoUrl = videoPreview || undefined;
+      // Upload photos
+      if (photos.length > 0) {
+        const photoUrls = await Promise.all(
+          photos.map(photo => uploadFile(photo))
+        );
+        fileUrls.push(...photoUrls);
+      }
       
-      // Use voice note if available
-      const voiceNoteUrl = voiceNote || undefined;
+      // Upload video
+      if (video) {
+        const videoUrl = await uploadFile(video);
+        fileUrls.push(videoUrl);
+      }
+      
+      // Upload voice note
+      if (voiceNote) {
+        const blob = await fetch(voiceNote).then(r => r.blob());
+        const file = new File([blob], 'voice-note.wav', { type: 'audio/wav' });
+        const voiceNoteUrl = await uploadFile(file);
+        fileUrls.push(voiceNoteUrl);
+      }
 
-      const { issue, error: createError } = await localStorageService.createIssue({
+      // Submit complaint to Firestore
+      const complaintId = await submitComplaint({
+        userId: user?.id || 'anonymous',
+        type: issueType,
+        description,
+        location: `${latitude},${longitude}`,
+        files: fileUrls,
+        priority,
+        anonymous_email: isAnonymous ? anonymousEmail : undefined,
+      });
+
+      // Reset form
+      setType('');
+      setDescription('');
+      setLocation('');
+      setFiles(null);
+      setVideo(null);
+      setVoiceNote('');
+      setProgress(0);
+      
+      setSuccess(true);
+      alert('Complaint submitted successfully! ComplaintID: ' + complaintId);
+
+      // Navigate to complaints list after 2 seconds
+      setTimeout(() => {
+        navigate('/my-complaints');
+      }, 2000);
         user_id: isAnonymous ? 'anonymous' : (user?.id || ''),
         issue_type: issueType as Issue['issue_type'],
         description,

@@ -287,6 +287,15 @@
       "role": "citizen",
       "created_at": "2025-10-26T22:40:44.567Z",
       "updated_at": "2025-10-26T22:40:44.567Z"
+    },
+    {
+      "id": "1761401960787mvtlnkn0a",
+      "email": "test.user@example.com",
+      "password": "test123",
+      "full_name": "Test User",
+      "role": "citizen",
+      "created_at": "2025-10-25T14:19:20.787Z",
+      "updated_at": "2025-10-25T14:19:20.788Z"
     }
   ]
 }
