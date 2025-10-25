@@ -1,12 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LogIn, UserPlus, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
-type LoginPageProps = {
-  onNavigate: (page: string) => void;
-};
-
-export function LoginPage({ onNavigate }: LoginPageProps) {
+export function LoginPage() {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +24,7 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
         if (error) {
           setError(error.message);
         } else {
-          onNavigate('home');
+          navigate('/home');
         }
       } else {
         if (!fullName.trim()) {
@@ -38,7 +36,7 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
         if (error) {
           setError(error.message);
         } else {
-          onNavigate('home');
+          navigate('/home');
         }
       }
     } catch (err) {
@@ -161,7 +159,7 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
 
         <div className="mt-6 text-center">
           <button
-            onClick={() => onNavigate('admin-login')}
+            onClick={() => navigate('/admin-login')}
             className="text-sm text-blue-600 hover:text-blue-700 font-medium"
           >
             Admin Login

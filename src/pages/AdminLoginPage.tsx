@@ -1,12 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shield, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
-type AdminLoginPageProps = {
-  onNavigate: (page: string) => void;
-};
-
-export function AdminLoginPage({ onNavigate }: AdminLoginPageProps) {
+export function AdminLoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,7 +21,7 @@ export function AdminLoginPage({ onNavigate }: AdminLoginPageProps) {
       if (error) {
         setError(error.message);
       } else {
-        onNavigate('admin');
+        navigate('/admin');
       }
     } catch (err) {
       setError('An unexpected error occurred');
@@ -92,7 +90,7 @@ export function AdminLoginPage({ onNavigate }: AdminLoginPageProps) {
 
         <div className="mt-6 text-center">
           <button
-            onClick={() => onNavigate('login')}
+            onClick={() => navigate('/login')}
             className="text-sm text-slate-600 hover:text-slate-700 font-medium"
           >
             Back to Citizen Login

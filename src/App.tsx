@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Navbar } from './components/Navbar';
 import { PublicDashboard } from './pages/PublicDashboard';
@@ -9,18 +9,11 @@ import { MyComplaintsPage } from './pages/MyComplaintsPage';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AdminIssueDetail } from './pages/AdminIssueDetail';
 import { AdminActionPanel } from './pages/AdminActionPanel';
+import { UserProfilePage } from './pages/UserProfilePage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [selectedIssueId, setSelectedIssueId] = useState<string>('');
   const { loading } = useAuth();
-
-  const handleNavigate = (page: string, issueId?: string) => {
-    setCurrentPage(page);
-    if (issueId) {
-      setSelectedIssueId(issueId);
-    }
-  };
 
   if (loading) {
     return (
@@ -32,20 +25,27 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {currentPage !== 'login' && currentPage !== 'admin-login' && (
-        <Navbar currentPage={currentPage} onNavigate={handleNavigate} />
-      )}
-
-      {currentPage === 'home' && <PublicDashboard onNavigate={handleNavigate} />}
-      {currentPage === 'login' && <LoginPage onNavigate={handleNavigate} />}
-      {currentPage === 'admin-login' && <AdminLoginPage onNavigate={handleNavigate} />}
-      {currentPage === 'report' && <ReportIssuePage onNavigate={handleNavigate} />}
-      {currentPage === 'my-complaints' && <MyComplaintsPage onNavigate={handleNavigate} />}
-      {currentPage === 'admin' && <AdminDashboard onNavigate={handleNavigate} />}
-      {currentPage === 'admin-action-panel' && <AdminActionPanel onNavigate={handleNavigate} />}
-      {currentPage === 'admin-detail' && (
-        <AdminIssueDetail issueId={selectedIssueId} onNavigate={handleNavigate} />
-      )}
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/home" element={<><Navbar /><PublicDashboard /></>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
+        
+        {/* User routes */}
+        <Route path="/report" element={<><Navbar /><ReportIssuePage /></>} />
+        <Route path="/my-complaints" element={<><Navbar /><MyComplaintsPage /></>} />
+        <Route path="/profile" element={<><Navbar /><UserProfilePage /></>} />
+        
+        {/* Admin routes */}
+        <Route path="/admin" element={<><Navbar /><AdminDashboard /></>} />
+        <Route path="/admin/issue/:issueId" element={<><Navbar /><AdminIssueDetail /></>} />
+        <Route path="/admin/action-panel" element={<><Navbar /><AdminActionPanel /></>} />
+        <Route path="/admin/analytics" element={<><Navbar /><AnalyticsPage /></>} />
+        
+        {/* Catch all route */}
+        <Route path="*" element={<Navigate to="/home" replace />} />
+      </Routes>
     </div>
   );
 }

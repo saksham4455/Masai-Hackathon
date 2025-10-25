@@ -7,10 +7,69 @@
       "photo_url": null,
       "latitude": 22.289666500000003,
       "longitude": 73.36417325,
-      "status": "pending",
+      "status": "in_progress",
       "id": "176133655170935tg0y5e0",
       "created_at": "2025-10-24T20:09:11.709Z",
-      "updated_at": "2025-10-24T20:09:11.709Z"
+      "updated_at": "2025-10-24T20:18:39.397Z",
+      "public_comments": [
+        {
+          "id": "comment-2",
+          "issue_id": "176133655170935tg0y5e0",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "Thank you for reporting this pothole. Our road maintenance team has been notified and will address this issue within the next week.",
+          "created_at": "2025-10-24T20:15:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-2",
+          "issue_id": "176133655170935tg0y5e0",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-24T20:18:39.397Z",
+          "comment": "Issue assigned to road maintenance team"
+        }
+      ]
+    },
+    {
+      "user_id": "1761335666815k8sd30ib0",
+      "issue_type": "garbage",
+      "description": "aaa",
+      "priority": "high",
+      "latitude": 22.289649431080626,
+      "longitude": 73.36413926998995,
+      "status": "in_progress",
+      "is_anonymous": false,
+      "id": "1761343973468icjwkjqh7",
+      "created_at": "2025-10-24T22:12:53.468Z",
+      "updated_at": "2025-10-25T07:40:52.002Z",
+      "public_comments": [
+        {
+          "id": "comment-1",
+          "issue_id": "1761343973468icjwkjqh7",
+          "author_type": "admin",
+          "author_id": "admin-1",
+          "author_name": "City Administrator",
+          "comment": "We have received your complaint and our team is currently investigating the garbage issue in your area. We expect to resolve this within 2-3 business days.",
+          "created_at": "2025-10-25T08:00:00.000Z"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "status-1",
+          "issue_id": "1761343973468icjwkjqh7",
+          "old_status": "pending",
+          "new_status": "in_progress",
+          "changed_by": "admin-1",
+          "changed_by_name": "City Administrator",
+          "changed_at": "2025-10-25T07:40:52.002Z",
+          "comment": "Issue assigned to cleanup team"
+        }
+      ]
     }
   ]
 }

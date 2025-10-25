@@ -61,6 +61,13 @@ export function IssueMap({
     }
   }, []);
 
+  // Update map center when center prop changes
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+    
+    mapInstanceRef.current.setCenter(center);
+  }, [center]);
+
   useEffect(() => {
     if (!mapInstanceRef.current) return;
 

@@ -149,6 +149,46 @@ app.post('/api/auth/login', (req, res) => {
   res.status(401).json({ error: 'Invalid email or password' });
 });
 
+// Update user profile
+app.put('/api/users/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { full_name, email } = req.body;
+
+  if (!full_name && !email) {
+    return res.status(400).json({ error: 'No fields to update' });
+  }
+
+  const usersData = readJsonFile(USERS_FILE);
+  const userIndex = usersData.users.findIndex(u => u.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  // Check if email is being changed and if it already exists
+  if (email && email !== usersData.users[userIndex].email) {
+    const existingUser = usersData.users.find(u => u.email === email && u.id !== userId);
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+  }
+
+  // Update user data
+  if (full_name) {
+    usersData.users[userIndex].full_name = full_name;
+  }
+  if (email) {
+    usersData.users[userIndex].email = email;
+  }
+  usersData.users[userIndex].updated_at = new Date().toISOString();
+
+  if (writeJsonFile(USERS_FILE, usersData)) {
+    res.json({ user: usersData.users[userIndex], message: 'Profile updated successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
 // Get all issues
 app.get('/api/issues', (req, res) => {
   const issuesData = readJsonFile(ISSUES_FILE);
@@ -184,7 +224,7 @@ app.post('/api/issues', (req, res) => {
 // Update issue status
 app.put('/api/issues/:id/status', (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status, changed_by, changed_by_name, comment } = req.body;
 
   if (!status) {
     return res.status(400).json({ error: 'Status is required' });
@@ -197,8 +237,32 @@ app.put('/api/issues/:id/status', (req, res) => {
     return res.status(404).json({ error: 'Issue not found' });
   }
 
-  issuesData.issues[issueIndex].status = status;
-  issuesData.issues[issueIndex].updated_at = new Date().toISOString();
+  const issue = issuesData.issues[issueIndex];
+  const oldStatus = issue.status;
+
+  // Only update if status actually changed
+  if (oldStatus !== status) {
+    // Initialize status_history if it doesn't exist
+    if (!issue.status_history) {
+      issue.status_history = [];
+    }
+
+    // Add status change to history
+    const statusChange = {
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      issue_id: id,
+      old_status: oldStatus,
+      new_status: status,
+      changed_by: changed_by || 'system',
+      changed_by_name: changed_by_name || 'System',
+      changed_at: new Date().toISOString(),
+      comment: comment || null
+    };
+
+    issue.status_history.push(statusChange);
+    issue.status = status;
+    issue.updated_at = new Date().toISOString();
+  }
 
   if (writeJsonFile(ISSUES_FILE, issuesData)) {
     res.json({ issue: issuesData.issues[issueIndex], message: 'Issue updated successfully' });
@@ -226,6 +290,73 @@ app.get('/api/issues/:id', (req, res) => {
   }
 
   res.json({ issue });
+});
+
+// Add public comment to issue
+app.post('/api/issues/:id/comments', (req, res) => {
+  const { id } = req.params;
+  const { comment, author_type, author_id, author_name } = req.body;
+
+  if (!comment || !author_type || !author_id || !author_name) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const issuesData = readJsonFile(ISSUES_FILE);
+  const issueIndex = issuesData.issues.findIndex(issue => issue.id === id);
+
+  if (issueIndex === -1) {
+    return res.status(404).json({ error: 'Issue not found' });
+  }
+
+  const newComment = {
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    issue_id: id,
+    author_type,
+    author_id,
+    author_name,
+    comment,
+    created_at: new Date().toISOString()
+  };
+
+  // Initialize public_comments array if it doesn't exist
+  if (!issuesData.issues[issueIndex].public_comments) {
+    issuesData.issues[issueIndex].public_comments = [];
+  }
+
+  issuesData.issues[issueIndex].public_comments.push(newComment);
+  issuesData.issues[issueIndex].updated_at = new Date().toISOString();
+
+  if (writeJsonFile(ISSUES_FILE, issuesData)) {
+    res.json({ comment: newComment, message: 'Comment added successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to add comment' });
+  }
+});
+
+// Update issue admin notes
+app.put('/api/issues/:id/admin-notes', (req, res) => {
+  const { id } = req.params;
+  const { admin_notes } = req.body;
+
+  if (admin_notes === undefined) {
+    return res.status(400).json({ error: 'Admin notes are required' });
+  }
+
+  const issuesData = readJsonFile(ISSUES_FILE);
+  const issueIndex = issuesData.issues.findIndex(issue => issue.id === id);
+
+  if (issueIndex === -1) {
+    return res.status(404).json({ error: 'Issue not found' });
+  }
+
+  issuesData.issues[issueIndex].admin_notes = admin_notes;
+  issuesData.issues[issueIndex].updated_at = new Date().toISOString();
+
+  if (writeJsonFile(ISSUES_FILE, issuesData)) {
+    res.json({ issue: issuesData.issues[issueIndex], message: 'Admin notes updated successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to update admin notes' });
+  }
 });
 
 // Start server

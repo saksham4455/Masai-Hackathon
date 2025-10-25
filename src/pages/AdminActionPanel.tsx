@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, AlertCircle, CheckCircle, Filter } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { localStorageService, Issue } from '../lib/localStorage';
 
-type AdminActionPanelProps = {
-  onNavigate: (page: string, issueId?: string) => void;
-};
-
-export function AdminActionPanel({ onNavigate }: AdminActionPanelProps) {
+export function AdminActionPanel() {
+  const navigate = useNavigate();
   const { user, profile } = useAuth();
   const [issues, setIssues] = useState<Issue[]>([]);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
@@ -120,7 +118,7 @@ export function AdminActionPanel({ onNavigate }: AdminActionPanelProps) {
         <div className="text-center">
           <p className="text-xl text-gray-600 mb-4">Access Denied: Admin Only</p>
           <button
-            onClick={() => onNavigate('home')}
+            onClick={() => navigate('/home')}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             Go to Home
@@ -142,7 +140,7 @@ export function AdminActionPanel({ onNavigate }: AdminActionPanelProps) {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <button
-          onClick={() => onNavigate('admin')}
+          onClick={() => navigate('/admin')}
           className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 mb-6 transition"
         >
           <ArrowLeft className="w-5 h-5" />
